@@ -12,6 +12,7 @@ import {
 
 const NavigationPanel = ({
   files,
+  selectedFile, // Novo parâmetro para identificar o arquivo selecionado
   onFileSelect,
   onFileCreate,
   onFileDelete,
@@ -48,65 +49,74 @@ const NavigationPanel = ({
         maxWidth: 320,
         backgroundColor: "background.paper",
         borderRadius: 2,
+        display: "flex",
+        flexDirection: "column",
+        height: "100%", // Faz com que o painel ocupe toda a altura disponível
       }}
     >
       <Typography variant="h6" sx={{ textAlign: "center", fontWeight: 600 }}>
         Navigation Panel
       </Typography>
 
-      <List sx={{ mt: 2 }}>
-        {files.map((file, index) => (
-          <ListItem
-            key={file.id}
-            draggable
-            onDragStart={() => handleDragStart(index)}
-            onDragOver={() => handleDragOver(index)}
-            onDragEnd={handleDragEnd}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              p: 1,
-              borderRadius: 1,
-              border: "1px solid",
-              borderColor: "divider",
-              bgcolor:
-                draggedIndex === index ? "grey.200" : "background.default",
-              cursor: "grab",
-              transition: "background-color 0.2s ease",
-            }}
-          >
-            <FaGripLines style={{ marginRight: 10, cursor: "grab" }} />
-            <Typography
-              variant="body2"
-              sx={{
-                flexGrow: 1,
-                cursor: "pointer",
-                "&:hover": { color: "primary.main" },
-              }}
-              onClick={() => onFileSelect(file)}
-            >
-              {file.name}
-            </Typography>
-            <IconButton size="small" onClick={() => onFileRename(file.id)}>
-              <FaEdit />
-            </IconButton>
-            <IconButton size="small" onClick={() => onFileDelete(file.id)}>
-              <FaTrash />
-            </IconButton>
-          </ListItem>
-        ))}
-      </List>
+      <Box sx={{ flexGrow: 1, overflowY: "auto", mt: 2 }}>
+        <List>
+          {files.map((file, index) => {
+            const isSelected = file.id === selectedFile?.id; // Comparação com o arquivo selecionado
+            return (
+              <ListItem
+                key={file.id}
+                draggable
+                onDragStart={() => handleDragStart(index)}
+                onDragOver={() => handleDragOver(index)}
+                onDragEnd={handleDragEnd}
+                onClick={() => onFileSelect(file)}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  p: 1,
+                  borderRadius: 1,
+                  border: isSelected ? "2px solid" : "1px solid",
+                  borderColor: isSelected ? "primary.main" : "divider", // Borda laranja para o item selecionado
+                  bgcolor: "background.default",
+                  cursor: "pointer",
+                  fontWeight: isSelected ? "bold" : "normal",
+                  transition: "border-color 0.2s ease",
+                }}
+              >
+                <FaGripLines style={{ marginRight: 10, cursor: "grab" }} />
+                <Typography
+                  variant="body2"
+                  sx={{
+                    flexGrow: 1,
+                  }}
+                >
+                  {file.name}
+                </Typography>
+                <IconButton size="small" onClick={() => onFileRename(file.id)}>
+                  <FaEdit />
+                </IconButton>
+                <IconButton size="small" onClick={() => onFileDelete(file.id)}>
+                  <FaTrash />
+                </IconButton>
+              </ListItem>
+            );
+          })}
+        </List>
+      </Box>
 
-      <Button
-        fullWidth
-        variant="contained"
-        color="primary"
-        startIcon={<FaPlus />}
-        sx={{ mt: 2, textTransform: "none" }}
-        onClick={onFileCreate}
-      >
-        Criar Novo Arquivo
-      </Button>
+      {/* Botão fixado no fundo */}
+      <Box sx={{ mt: "auto" }}>
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          startIcon={<FaPlus />}
+          sx={{ textTransform: "none" }}
+          onClick={onFileCreate}
+        >
+          Criar Novo Arquivo
+        </Button>
+      </Box>
     </Paper>
   );
 };

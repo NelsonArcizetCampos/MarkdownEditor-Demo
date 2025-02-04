@@ -1,23 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { v4 as uuid } from "uuid";
 import NavigationPanel from "./NavigationPanel";
 import MarkdownEditor from "./MarkdownEditor";
 import LivePreview from "./LivePreview";
-import { Box } from "@mui/material"; // Importando o Box do Material UI
+import { Box } from "@mui/material";
 
 const App = () => {
   const [files, setFiles] = useState([
     {
-      id: 1,
+      id: uuid(),
       name: "Arquivo1.md",
       content: "# Título 1\nConteúdo do arquivo 1.",
     },
     {
-      id: 2,
+      id: uuid(),
       name: "Arquivo2.md",
       content: "# Título 2\nConteúdo do arquivo 2.",
     },
   ]);
   const [selectedFile, setSelectedFile] = useState(null);
+
+  useEffect(() => {
+    if (files.length > 0 && !selectedFile) {
+      setSelectedFile(files[0]);
+    } else if (files.length === 0) {
+      setSelectedFile(null);
+    }
+  }, [files]);
 
   const handleFileSelect = (file) => {
     setSelectedFile(file);
@@ -25,17 +34,19 @@ const App = () => {
 
   const handleFileCreate = () => {
     const newFile = {
-      id: files.length + 1,
+      id: uuid(),
       name: `NovoArquivo${files.length + 1}.md`,
       content: "",
     };
     setFiles([...files, newFile]);
+    setSelectedFile(newFile);
   };
 
   const handleFileDelete = (id) => {
-    setFiles(files.filter((file) => file.id !== id));
+    const updatedFiles = files.filter((file) => file.id !== id);
+    setFiles(updatedFiles);
     if (selectedFile?.id === id) {
-      setSelectedFile(null);
+      setSelectedFile(updatedFiles.length > 0 ? updatedFiles[0] : null);
     }
   };
 
@@ -56,11 +67,11 @@ const App = () => {
 
   const handleContentChange = (content) => {
     if (selectedFile) {
-      const updatedFile = { ...selectedFile, content }; // Atualiza o conteúdo do arquivo
-      setSelectedFile(updatedFile); // Atualiza imediatamente o arquivo selecionado
+      const updatedFile = { ...selectedFile, content };
+      setSelectedFile(updatedFile);
       setFiles(
         files.map((file) => (file.id === selectedFile.id ? updatedFile : file))
-      ); // Atualiza a lista de arquivos
+      );
     }
   };
 
@@ -68,26 +79,53 @@ const App = () => {
     <Box
       sx={{
         display: "flex",
-        padding: 3,
-        maxWidth: "1200px",
+        height: "100vh",
+        padding: 2,
+        maxWidth: "1600px",
         margin: "0 auto",
-        flexDirection: { xs: "column", md: "row" }, // Responsividade
-        gap: 2, // Espaçamento entre os elementos
+        gap: 2,
+        overflow: "hidden",
+
+        // Especificação de largura fixa para os elementos
+        "& > *:nth-of-type(1)": { width: "300px", flexShrink: 0 }, // NavigationPanel fixo
+        "& > *:nth-of-type(2)": { flexGrow: 1, width: "50%" }, // MarkdownEditor
+        "& > *:nth-of-type(3)": { flexGrow: 1, width: "50%" }, // LivePreview
       }}
     >
       <NavigationPanel
         files={files}
+        selectedFile={selectedFile}
         onFileSelect={handleFileSelect}
         onFileCreate={handleFileCreate}
         onFileDelete={handleFileDelete}
         onFileRename={handleFileRename}
         onFileReorder={handleFileReorder}
       />
-      <MarkdownEditor
-        selectedFile={selectedFile}
-        onContentChange={handleContentChange}
-      />
-      <LivePreview selectedFile={selectedFile} />
+      {selectedFile ? (
+        <>
+          <MarkdownEditor
+            selectedFile={selectedFile}
+            onContentChange={handleContentChange}
+          />
+          <LivePreview selectedFile={selectedFile} />
+        </>
+      ) : (
+        <Box
+          sx={{
+            flexGrow: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "550px",
+            bgcolor: "background.paper",
+            borderRadius: 2,
+            textAlign: "center",
+            p: 3,
+          }}
+        >
+          <p>Nenhum arquivo disponível. Crie um novo arquivo para começar.</p>
+        </Box>
+      )}
     </Box>
   );
 };
