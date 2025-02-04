@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "keywords": [],
+  "type": "module",
   "main": "src/index.tsx",
   "dependencies": {
     "react": "^19.0.0",
