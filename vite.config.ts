@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   server: {
-    allowedHosts: ["sx2jj2-5173.csb.app"], // Permite qualquer host
+    allowedHosts: ["zvp9wr-5173.csb.app"], // Permite qualquer host
     host: true, // Garante que o Vite aceita conexões externas
   },
 });
