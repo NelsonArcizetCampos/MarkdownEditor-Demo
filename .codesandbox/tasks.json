@@ -27,7 +27,10 @@
     },
     "preview": {
       "name": "preview",
-      "command": "yarn preview"
+      "command": "yarn preview",
+      "preview": {
+        "port": 4173
+      }
     }
   }
 }
