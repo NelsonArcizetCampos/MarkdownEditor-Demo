@@ -12,7 +12,7 @@ const MarkdownEditor = ({ selectedFile, onContentChange }) => {
 
   const handleEditorChange = ({ text }) => {
     setContent(text);
-    onContentChange(text); // Atualiza o conteúdo em tempo real no App.js
+    onContentChange(text); 
   };
 
   return (
@@ -23,17 +23,21 @@ const MarkdownEditor = ({ selectedFile, onContentChange }) => {
         p: 2,
         borderRadius: 2,
         bgcolor: "background.paper",
-        minHeight: 550,
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
       }}
     >
       <Typography variant="h6" sx={{ textAlign: "center", fontWeight: 600 }}>
         Markdown Editor
       </Typography>
 
-      <Box sx={{ mt: 2 }}>
+      <Box sx={{ flexGrow: 1, mt: 2, height: "100%" }}>
         <MdEditor
           value={content}
-          style={{ height: "500px" }}
+          style={{ height: "100%" }}
+          renderHTML={(text) => text}
+          view={{ menu: true, md: true, html: false }} // "Show Editor Only" ativado
           onChange={handleEditorChange}
           placeholder="Escreva seu conteúdo Markdown aqui..."
         />
