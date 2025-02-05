@@ -3,14 +3,29 @@ import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import { Box, Typography, Paper } from '@mui/material';
 
-const MarkdownEditor = ({ selectedFile, onContentChange }) => {
-  const [content, setContent] = useState('');
+// Tipagem para as props
+interface File {
+  id: string;
+  name: string;
+  content: string;
+}
+
+interface MarkdownEditorProps {
+  selectedFile: File | null;
+  onContentChange: (content: string) => void;
+}
+
+const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
+  selectedFile,
+  onContentChange,
+}) => {
+  const [content, setContent] = useState<string>('');
 
   useEffect(() => {
     setContent(selectedFile?.content || '');
   }, [selectedFile]);
 
-  const handleEditorChange = ({ text }) => {
+  const handleEditorChange = ({ text }: { text: string }) => {
     setContent(text);
     onContentChange(text);
   };
@@ -37,7 +52,7 @@ const MarkdownEditor = ({ selectedFile, onContentChange }) => {
           value={content}
           style={{ height: '100%' }}
           renderHTML={(text) => text}
-          view={{ menu: true, md: true, html: false }} // "Show Editor Only" ativado
+          view={{ menu: true, md: true, html: false }}
           onChange={handleEditorChange}
           placeholder="Escreva seu conteúdo Markdown aqui..."
         />

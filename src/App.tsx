@@ -5,8 +5,14 @@ import MarkdownEditor from './MarkdownEditor';
 import LivePreview from './LivePreview';
 import { Box } from '@mui/material';
 
-const App = () => {
-  const [files, setFiles] = useState([
+interface FileItem {
+  id: string;
+  name: string;
+  content: string;
+}
+
+const App: React.FC = () => {
+  const [files, setFiles] = useState<FileItem[]>([
     {
       id: uuid(),
       name: 'Arquivo1.md',
@@ -18,7 +24,7 @@ const App = () => {
       content: '# Título 2\nConteúdo do arquivo 2.',
     },
   ]);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
 
   useEffect(() => {
     if (files.length > 0 && !selectedFile) {
@@ -26,14 +32,14 @@ const App = () => {
     } else if (files.length === 0) {
       setSelectedFile(null);
     }
-  }, [files]);
+  }, [files, selectedFile]);
 
-  const handleFileSelect = (file) => {
+  const handleFileSelect = (file: FileItem): void => {
     setSelectedFile(file);
   };
 
-  const handleFileCreate = () => {
-    const newFile = {
+  const handleFileCreate = (): void => {
+    const newFile: FileItem = {
       id: uuid(),
       name: `NovoArquivo${files.length + 1}.md`,
       content: '',
@@ -42,7 +48,7 @@ const App = () => {
     setSelectedFile(newFile);
   };
 
-  const handleFileDelete = (id) => {
+  const handleFileDelete = (id: string): void => {
     const updatedFiles = files.filter((file) => file.id !== id);
     setFiles(updatedFiles);
     if (selectedFile?.id === id) {
@@ -50,7 +56,7 @@ const App = () => {
     }
   };
 
-  const handleFileRename = (id) => {
+  const handleFileRename = (id: string): void => {
     const newName = prompt('Novo nome do arquivo:');
     if (newName) {
       setFiles(
@@ -61,13 +67,13 @@ const App = () => {
     }
   };
 
-  const handleFileReorder = (reorderedFiles) => {
+  const handleFileReorder = (reorderedFiles: FileItem[]): void => {
     setFiles(reorderedFiles);
   };
 
-  const handleContentChange = (content) => {
+  const handleContentChange = (content: string): void => {
     if (selectedFile) {
-      const updatedFile = { ...selectedFile, content };
+      const updatedFile: FileItem = { ...selectedFile, content };
       setSelectedFile(updatedFile);
       setFiles(
         files.map((file) => (file.id === selectedFile.id ? updatedFile : file))

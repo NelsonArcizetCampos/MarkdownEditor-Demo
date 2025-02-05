@@ -1,7 +1,6 @@
-// src/theme.js
-import { createTheme } from '@mui/material/styles';
+import { createTheme, ThemeOptions } from '@mui/material/styles';
 
-const theme = createTheme({
+const theme: ThemeOptions = createTheme({
   palette: {
     primary: {
       main: '#FF9900', // Laranja AWS

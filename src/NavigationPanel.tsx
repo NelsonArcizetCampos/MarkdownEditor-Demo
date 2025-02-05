@@ -10,22 +10,39 @@ import {
   Paper,
 } from '@mui/material';
 
-const NavigationPanel = ({
+// Tipagem das props
+interface File {
+  id: string;
+  name: string;
+  content: string;
+}
+
+interface NavigationPanelProps {
+  files: File[];
+  selectedFile: File | null;
+  onFileSelect: (file: File) => void;
+  onFileCreate: () => void;
+  onFileDelete: (id: string) => void;
+  onFileRename: (id: string) => void;
+  onFileReorder: (reorderedFiles: File[]) => void;
+}
+
+const NavigationPanel: React.FC<NavigationPanelProps> = ({
   files,
-  selectedFile, // Novo parâmetro para identificar o arquivo selecionado
+  selectedFile,
   onFileSelect,
   onFileCreate,
   onFileDelete,
   onFileRename,
   onFileReorder,
 }) => {
-  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
 
-  const handleDragStart = (index) => {
+  const handleDragStart = (index: number) => {
     setDraggedIndex(index);
   };
 
-  const handleDragOver = (index) => {
+  const handleDragOver = (index: number) => {
     if (draggedIndex === null || draggedIndex === index) return;
 
     const reorderedFiles = [...files];
@@ -51,7 +68,7 @@ const NavigationPanel = ({
         borderRadius: 2,
         display: 'flex',
         flexDirection: 'column',
-        height: '100%', // Faz com que o painel ocupe toda a altura disponível
+        height: '100%',
       }}
     >
       <Typography variant="h6" sx={{ textAlign: 'center', fontWeight: 600 }}>
@@ -61,7 +78,7 @@ const NavigationPanel = ({
       <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 2 }}>
         <List>
           {files.map((file, index) => {
-            const isSelected = file.id === selectedFile?.id; // Comparação com o arquivo selecionado
+            const isSelected = file.id === selectedFile?.id;
             return (
               <ListItem
                 key={file.id}
@@ -76,7 +93,7 @@ const NavigationPanel = ({
                   p: 1,
                   borderRadius: 1,
                   border: isSelected ? '2px solid' : '1px solid',
-                  borderColor: isSelected ? 'primary.main' : 'divider', // Borda laranja para o item selecionado
+                  borderColor: isSelected ? 'primary.main' : 'divider',
                   bgcolor: 'background.default',
                   cursor: 'pointer',
                   fontWeight: isSelected ? 'bold' : 'normal',
@@ -104,7 +121,6 @@ const NavigationPanel = ({
         </List>
       </Box>
 
-      {/* Botão fixado no fundo */}
       <Box sx={{ mt: 'auto' }}>
         <Button
           fullWidth

@@ -2,7 +2,18 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Box, Typography, Paper } from '@mui/material';
 
-const LivePreview = ({ selectedFile }) => {
+// Tipagem para as props
+interface File {
+  id: string;
+  name: string;
+  content: string;
+}
+
+interface LivePreviewProps {
+  selectedFile: File | null;
+}
+
+const LivePreview: React.FC<LivePreviewProps> = ({ selectedFile }) => {
   return (
     <Paper
       elevation={3}
