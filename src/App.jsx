@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { v4 as uuid } from "uuid";
-import NavigationPanel from "./NavigationPanel";
-import MarkdownEditor from "./MarkdownEditor";
-import LivePreview from "./LivePreview";
-import { Box } from "@mui/material";
+import React, { useState, useEffect } from 'react';
+import { v4 as uuid } from 'uuid';
+import NavigationPanel from './NavigationPanel';
+import MarkdownEditor from './MarkdownEditor';
+import LivePreview from './LivePreview';
+import { Box } from '@mui/material';
 
 const App = () => {
   const [files, setFiles] = useState([
     {
       id: uuid(),
-      name: "Arquivo1.md",
-      content: "# Título 1\nConteúdo do arquivo 1.",
+      name: 'Arquivo1.md',
+      content: '# Título 1\nConteúdo do arquivo 1.',
     },
     {
       id: uuid(),
-      name: "Arquivo2.md",
-      content: "# Título 2\nConteúdo do arquivo 2.",
+      name: 'Arquivo2.md',
+      content: '# Título 2\nConteúdo do arquivo 2.',
     },
   ]);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -36,7 +36,7 @@ const App = () => {
     const newFile = {
       id: uuid(),
       name: `NovoArquivo${files.length + 1}.md`,
-      content: "",
+      content: '',
     };
     setFiles([...files, newFile]);
     setSelectedFile(newFile);
@@ -51,7 +51,7 @@ const App = () => {
   };
 
   const handleFileRename = (id) => {
-    const newName = prompt("Novo nome do arquivo:");
+    const newName = prompt('Novo nome do arquivo:');
     if (newName) {
       setFiles(
         files.map((file) =>
@@ -78,18 +78,18 @@ const App = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        height: "100vh",
+        display: 'flex',
+        height: '100vh',
         padding: 2,
-        maxWidth: "1600px",
-        margin: "0 auto",
+        maxWidth: '1600px',
+        margin: '0 auto',
         gap: 2,
-        overflow: "hidden",
+        overflow: 'hidden',
 
         // Especificação de largura fixa para os elementos
-        "& > *:nth-of-type(1)": { width: "300px", flexShrink: 0 }, // NavigationPanel fixo
-        "& > *:nth-of-type(2)": { flexGrow: 1, width: "50%" }, // MarkdownEditor
-        "& > *:nth-of-type(3)": { flexGrow: 1, width: "50%" }, // LivePreview
+        '& > *:nth-of-type(1)': { width: '300px', flexShrink: 0 }, // NavigationPanel fixo
+        '& > *:nth-of-type(2)': { flexGrow: 1, width: '50%' }, // MarkdownEditor
+        '& > *:nth-of-type(3)': { flexGrow: 1, width: '50%' }, // LivePreview
       }}
     >
       <NavigationPanel
@@ -113,13 +113,13 @@ const App = () => {
         <Box
           sx={{
             flexGrow: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: "550px",
-            bgcolor: "background.paper",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '550px',
+            bgcolor: 'background.paper',
             borderRadius: 2,
-            textAlign: "center",
+            textAlign: 'center',
             p: 3,
           }}
         >

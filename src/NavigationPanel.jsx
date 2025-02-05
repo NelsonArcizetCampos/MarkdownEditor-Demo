@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { FaEdit, FaTrash, FaPlus, FaGripLines } from "react-icons/fa";
+import React, { useState } from 'react';
+import { FaEdit, FaTrash, FaPlus, FaGripLines } from 'react-icons/fa';
 import {
   Box,
   Typography,
@@ -8,7 +8,7 @@ import {
   IconButton,
   Button,
   Paper,
-} from "@mui/material";
+} from '@mui/material';
 
 const NavigationPanel = ({
   files,
@@ -47,18 +47,18 @@ const NavigationPanel = ({
       sx={{
         p: 2,
         maxWidth: 320,
-        backgroundColor: "background.paper",
+        backgroundColor: 'background.paper',
         borderRadius: 2,
-        display: "flex",
-        flexDirection: "column",
-        height: "100%", // Faz com que o painel ocupe toda a altura disponível
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%', // Faz com que o painel ocupe toda a altura disponível
       }}
     >
-      <Typography variant="h6" sx={{ textAlign: "center", fontWeight: 600 }}>
+      <Typography variant="h6" sx={{ textAlign: 'center', fontWeight: 600 }}>
         Navigation Panel
       </Typography>
 
-      <Box sx={{ flexGrow: 1, overflowY: "auto", mt: 2 }}>
+      <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 2 }}>
         <List>
           {files.map((file, index) => {
             const isSelected = file.id === selectedFile?.id; // Comparação com o arquivo selecionado
@@ -71,19 +71,19 @@ const NavigationPanel = ({
                 onDragEnd={handleDragEnd}
                 onClick={() => onFileSelect(file)}
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
+                  display: 'flex',
+                  alignItems: 'center',
                   p: 1,
                   borderRadius: 1,
-                  border: isSelected ? "2px solid" : "1px solid",
-                  borderColor: isSelected ? "primary.main" : "divider", // Borda laranja para o item selecionado
-                  bgcolor: "background.default",
-                  cursor: "pointer",
-                  fontWeight: isSelected ? "bold" : "normal",
-                  transition: "border-color 0.2s ease",
+                  border: isSelected ? '2px solid' : '1px solid',
+                  borderColor: isSelected ? 'primary.main' : 'divider', // Borda laranja para o item selecionado
+                  bgcolor: 'background.default',
+                  cursor: 'pointer',
+                  fontWeight: isSelected ? 'bold' : 'normal',
+                  transition: 'border-color 0.2s ease',
                 }}
               >
-                <FaGripLines style={{ marginRight: 10, cursor: "grab" }} />
+                <FaGripLines style={{ marginRight: 10, cursor: 'grab' }} />
                 <Typography
                   variant="body2"
                   sx={{
@@ -105,13 +105,13 @@ const NavigationPanel = ({
       </Box>
 
       {/* Botão fixado no fundo */}
-      <Box sx={{ mt: "auto" }}>
+      <Box sx={{ mt: 'auto' }}>
         <Button
           fullWidth
           variant="contained"
           color="primary"
           startIcon={<FaPlus />}
-          sx={{ textTransform: "none" }}
+          sx={{ textTransform: 'none' }}
           onClick={onFileCreate}
         >
           Criar Novo Arquivo
