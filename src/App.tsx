@@ -12,18 +12,7 @@ interface FileItem {
 }
 
 const App: React.FC = () => {
-  const [files, setFiles] = useState<FileItem[]>([
-    {
-      id: uuid(),
-      name: 'Arquivo1.md',
-      content: '# Título 1\nConteúdo do arquivo 1.',
-    },
-    {
-      id: uuid(),
-      name: 'Arquivo2.md',
-      content: '# Título 2\nConteúdo do arquivo 2.',
-    },
-  ]);
+  const [files, setFiles] = useState<FileItem[]>([]);
   const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
 
   useEffect(() => {

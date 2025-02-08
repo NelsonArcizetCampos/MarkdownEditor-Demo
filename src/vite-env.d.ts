@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-import type { JSX as Jsx } from "react/jsx-runtime";
+import type { JSX as Jsx } from 'react/jsx-runtime';
 
 declare global {
   namespace JSX {

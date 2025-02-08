@@ -96,23 +96,34 @@ const NavigationPanel: React.FC<NavigationPanelProps> = ({
                   borderColor: isSelected ? 'primary.main' : 'divider',
                   bgcolor: 'background.default',
                   cursor: 'pointer',
-                  fontWeight: isSelected ? 'bold' : 'normal',
                   transition: 'border-color 0.2s ease',
                 }}
+                aria-current={isSelected ? 'true' : undefined} // Adiciona acessibilidade para seleção
               >
                 <FaGripLines style={{ marginRight: 10, cursor: 'grab' }} />
                 <Typography
                   variant="body2"
                   sx={{
                     flexGrow: 1,
+                    fontWeight: isSelected ? 'bold' : 'normal',
                   }}
                 >
                   {file.name}
                 </Typography>
-                <IconButton size="small" onClick={() => onFileRename(file.id)}>
+                <IconButton
+                  size="small"
+                  onClick={() => onFileRename(file.id)}
+                  aria-label="Editar Arquivo"
+                  disableRipple
+                >
                   <FaEdit />
                 </IconButton>
-                <IconButton size="small" onClick={() => onFileDelete(file.id)}>
+                <IconButton
+                  size="small"
+                  onClick={() => onFileDelete(file.id)}
+                  aria-label="Excluir Arquivo"
+                  disableRipple
+                >
                   <FaTrash />
                 </IconButton>
               </ListItem>
@@ -129,6 +140,7 @@ const NavigationPanel: React.FC<NavigationPanelProps> = ({
           startIcon={<FaPlus />}
           sx={{ textTransform: 'none' }}
           onClick={onFileCreate}
+          disableRipple
         >
           Criar Novo Arquivo
         </Button>
