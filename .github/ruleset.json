@@ -1,112 +1,48 @@
-[
-    {
-      "name": "Master Protection",
-      "target": "branch",
-      "enforcement": "active",
-      "conditions": {
-        "ref_name": {
-          "include": ["master"],
-          "exclude": []
-        }
-      },
-      "rules": [
-        {
-          "type": "required_status_checks",
-          "parameters": {
-            "required_check_names": ["Run Tests", "Lint", "Build"],
-            "strict_required_status_checks_policy": true
-          }
-        },
-        {
-          "type": "pull_request",
-          "parameters": {
-            "dismiss_stale_reviews_on_push": true,
-            "require_code_owner_review": true,
-            "require_last_push_approval": true
-          }
-        },
-        {
-          "type": "push",
-          "parameters": {
-            "allowed_users": [],
-            "allowed_teams": [],
-            "allowed_apps": [],
-            "block_force_pushes": true
-          }
-        },
-        {
-          "type": "deletion",
-          "parameters": {
-            "block_deletions": true
-          }
-        }
-      ]
-    },
-    {
-      "name": "Staging Protection",
-      "target": "branch",
-      "enforcement": "active",
-      "conditions": {
-        "ref_name": {
-          "include": ["staging"],
-          "exclude": []
-        }
-      },
-      "rules": [
-        {
-          "type": "required_status_checks",
-          "parameters": {
-            "required_check_names": ["Run Tests", "Lint"],
-            "strict_required_status_checks_policy": true
-          }
-        },
-        {
-          "type": "pull_request",
-          "parameters": {
-            "dismiss_stale_reviews_on_push": true,
-            "require_code_owner_review": false,
-            "require_last_push_approval": false
-          }
-        },
-        {
-          "type": "push",
-          "parameters": {
-            "allowed_users": [],
-            "allowed_teams": [],
-            "allowed_apps": [],
-            "block_force_pushes": true
-          }
-        }
-      ]
-    },
-    {
-      "name": "Testing Rules",
-      "target": "branch",
-      "enforcement": "active",
-      "conditions": {
-        "ref_name": {
-          "include": ["testing"],
-          "exclude": []
-        }
-      },
-      "rules": [
-        {
-          "type": "required_status_checks",
-          "parameters": {
-            "required_check_names": ["Run Tests"],
-            "strict_required_status_checks_policy": false
-          }
-        },
-        {
-          "type": "push",
-          "parameters": {
-            "allowed_users": ["dev-team"],
-            "allowed_teams": [],
-            "allowed_apps": [],
-            "block_force_pushes": false
-          }
-        }
-      ]
+{
+  "id": 3622759,
+  "name": "Master and Staging",
+  "target": "branch",
+  "source_type": "Repository",
+  "source": "NelsonArcizetCampos/MarkdownEditor-Demo",
+  "enforcement": "active",
+  "conditions": {
+    "ref_name": {
+      "exclude": [],
+      "include": ["~DEFAULT_BRANCH", "refs/heads/staging"]
     }
-  ]
-  
+  },
+  "rules": [
+    {
+      "type": "deletion"
+    },
+    {
+      "type": "non_fast_forward"
+    },
+    {
+      "type": "pull_request",
+      "parameters": {
+        "required_approving_review_count": 0,
+        "dismiss_stale_reviews_on_push": true,
+        "require_code_owner_review": false,
+        "require_last_push_approval": false,
+        "required_review_thread_resolution": false,
+        "automatic_copilot_code_review_enabled": false,
+        "allowed_merge_methods": ["merge", "squash", "rebase"]
+      }
+    },
+    {
+      "type": "required_status_checks",
+      "parameters": {
+        "strict_required_status_checks_policy": true,
+        "do_not_enforce_on_create": true,
+        "required_status_checks": [
+          {
+            "context": "test",
+            "integration_id": 15368
+          }
+        ]
+      }
+    }
+  ],
+  "bypass_actors": []
+}
