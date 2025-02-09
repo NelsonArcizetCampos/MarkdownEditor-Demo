@@ -13,21 +13,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do código
+      # Step 1: Checkout code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Configurar Node.js 19
+      # Step 2: Enable Corepack and install Yarn 4.6.0
+      - name: Enable Corepack and install Yarn 4.6.0
+        run: |
+          corepack enable
+          corepack prepare yarn@4.6.0 --activate
+
+      # Step 3: Set up Node.js 19 (after Corepack is enabled)
+      - name: Set up Node.js 19
         uses: actions/setup-node@v3
         with:
           node-version: 19
-          cache: 'yarn'
+          cache: 'yarn' # Enables caching for Yarn
 
-      - name: Instalar dependências
+      # Step 4: Debug Yarn version (for troubleshooting)
+      - name: Debug Yarn version
+        run: yarn --version
+
+      # Step 5: Install dependencies
+      - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Rodar Lint
+      # Step 6: Run Lint
+      - name: Run Lint
         run: yarn lint
 
-      - name: Rodar Testes
+      # Step 7: Run Tests
+      - name: Run Tests
         run: yarn test
-
