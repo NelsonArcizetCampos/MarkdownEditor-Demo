@@ -6,9 +6,10 @@ on:
       - staging
 
 jobs:
-  test:
+  deploy:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write  # Allows the GitHub Actions bot to push to gh-pages
     steps:
       # Step 1: Checkout code
       - name: Checkout code
