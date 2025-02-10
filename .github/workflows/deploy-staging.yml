@@ -1,0 +1,53 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Enable Corepack and install Yarn 4.6.0
+      - name: Enable Corepack and install Yarn 4.6.0
+        run: |
+          corepack enable
+          corepack prepare yarn@4.6.0 --activate
+
+      # Step 3: Set up Node.js 19 (after Corepack is enabled)
+      - name: Set up Node.js 19
+        uses: actions/setup-node@v3
+        with:
+          node-version: 19
+          cache: 'yarn' # Enables caching for Yarn
+
+      # Step 4: Install dependencies
+      - name: Install dependencies
+        run: yarn install --immutable --immutable-cache
+
+      # Step 5: Build project for Staging (Define PUBLIC_URL as /staging/)
+      - name: Build project for Staging
+        run: yarn build
+        env:
+          NODE_ENV: staging
+          PUBLIC_URL: "/staging"
+
+      # Step 6: Move staging build to subdirectory
+      - name: Move staging build to subdirectory
+        run: |
+          mkdir -p public/staging
+          mv dist/* public/staging/
+
+      # Step 7: Deploy to GitHub Pages (Staging)
+      - name: Deploy to GitHub Pages (Staging)
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages  # GitHub Pages will serve this branch
+          folder: public  # Deploys `public/`, where `staging/` has been placed
+          clean: true  # Removes old files to prevent conflicts
