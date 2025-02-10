@@ -4,10 +4,13 @@ on:
   push:
     branches:
       - master
+      - staging
+      - testing
   pull_request:
     branches:
       - master
       - staging
+      - testing
 
 jobs:
   test:
@@ -31,13 +34,9 @@ jobs:
           node-version: 19
           cache: 'yarn' # Enables caching for Yarn
 
-      # Step 4: Debug Yarn version (for troubleshooting)
-      - name: Debug Yarn version
-        run: yarn --version
-
       # Step 5: Install dependencies
       - name: Install dependencies
-        run: yarn install --immutable
+        run: yarn install --immutable --immutable-cache
 
       # Step 6: Run Lint
       - name: Run Lint
